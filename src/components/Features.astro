@@ -1,0 +1,35 @@
+---
+const features = [
+  {
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>`,
+    title: 'Never miss a qualified expense',
+    description: 'Stop guessing what qualifies. We track every eligible DCFSA expense automatically so you capture the full $7,500 annual limit.',
+  },
+  {
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>`,
+    title: 'See if you qualify for up to $5,000',
+    description: 'The Credit for Caring Act offers up to $5,000 for working caregivers. We\'ll tell you if you qualify and help you claim it.',
+  },
+  {
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" /></svg>`,
+    title: 'A benefits plan that grows with your care journey',
+    description: 'Benefits change. Your care situation changes. WillowPay builds a plan that lasts across years, not just tax seasons.',
+  },
+];
+---
+
+<section class="py-20 px-6">
+  <div class="max-w-5xl mx-auto">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+      {features.map((feature) => (
+        <div class="text-center md:text-left">
+          <div class="inline-flex items-center justify-center w-14 h-14 rounded-xl bg-emerald-100 text-emerald-700 mb-4">
+            <Fragment set:html={feature.icon} />
+          </div>
+          <h3 class="text-lg font-semibold text-gray-900">{feature.title}</h3>
+          <p class="mt-2 text-gray-600 text-sm leading-relaxed">{feature.description}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

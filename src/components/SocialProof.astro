@@ -1,0 +1,20 @@
+---
+const stats = [
+  { value: '63M', label: 'Americans providing unpaid care' },
+  { value: '78%', label: 'of caregiver expenses go untracked' },
+  { value: '$7,500', label: 'DCFSA limit most families leave on the table' },
+];
+---
+
+<section class="py-12 bg-emerald-50">
+  <div class="max-w-5xl mx-auto px-6">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+      {stats.map((stat) => (
+        <div>
+          <p class="text-3xl md:text-4xl font-bold text-emerald-700">{stat.value}</p>
+          <p class="mt-2 text-sm text-gray-600">{stat.label}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

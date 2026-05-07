@@ -1,0 +1,103 @@
+---
+---
+
+<section id="waitlist" class="py-20 px-6 bg-gray-50">
+  <div class="max-w-md mx-auto text-center">
+    <h2 class="text-2xl md:text-3xl font-bold text-gray-900">Save your spot</h2>
+    <p class="mt-3 text-gray-600">Be the first to know when WillowPay launches.</p>
+
+    <form id="waitlist-form" class="mt-8">
+      <div class="flex flex-col sm:flex-row gap-3">
+        <input
+          type="email"
+          name="email"
+          required
+          placeholder="your@email.com"
+          class="flex-1 px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent text-base"
+        />
+        <button
+          type="submit"
+          class="px-6 py-3 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 transition-colors whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          Save My Spot
+        </button>
+      </div>
+      <p class="mt-3 text-xs text-gray-500">No spam. We'll only email when WillowPay is ready.</p>
+    </form>
+
+    <div id="waitlist-success" class="hidden mt-8">
+      <div class="p-6 bg-emerald-50 rounded-xl">
+        <h3 class="text-xl font-bold text-emerald-800">You're in.</h3>
+        <p class="mt-2 text-emerald-700">
+          We'll reach out as soon as WillowPay launches. In the meantime, tell a caregiver who could use this.
+        </p>
+      </div>
+    </div>
+
+    <div id="waitlist-duplicate" class="hidden mt-8">
+      <div class="p-6 bg-amber-50 rounded-xl">
+        <h3 class="text-lg font-semibold text-amber-800">You're already on the list!</h3>
+        <p class="mt-2 text-amber-700">We have your email. We'll be in touch soon.</p>
+      </div>
+    </div>
+
+    <div id="waitlist-error" class="hidden mt-4">
+      <p class="text-red-600 text-sm">Something went wrong. Please try again.</p>
+    </div>
+  </div>
+</section>
+
+<script>
+  const form = document.getElementById('waitlist-form') as HTMLFormElement;
+  const successEl = document.getElementById('waitlist-success')!;
+  const duplicateEl = document.getElementById('waitlist-duplicate')!;
+  const errorEl = document.getElementById('waitlist-error')!;
+
+  function getReferralSource(): string {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('ref') || 'direct';
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    errorEl.classList.add('hidden');
+
+    const emailInput = form.querySelector('input[name="email"]') as HTMLInputElement;
+    const submitBtn = form.querySelector('button[type="submit"]') as HTMLButtonElement;
+    const email = emailInput.value.trim();
+
+    if (!email) return;
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Saving...';
+
+    try {
+      const res = await fetch('/api/waitlist', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email,
+          referral_source: getReferralSource(),
+        }),
+      });
+
+      const data = await res.json();
+
+      if (data.success) {
+        form.classList.add('hidden');
+        successEl.classList.remove('hidden');
+      } else if (data.duplicate) {
+        form.classList.add('hidden');
+        duplicateEl.classList.remove('hidden');
+      } else {
+        errorEl.classList.remove('hidden');
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Save My Spot';
+      }
+    } catch {
+      errorEl.classList.remove('hidden');
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Save My Spot';
+    }
+  });
+</script>
